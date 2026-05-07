@@ -29,7 +29,7 @@ indexRouter.post('/new', (req, res) => {
   const messageText = req.body.message;
   const messageAuthor = req.body.author;
 
-  messages.push({ id: messages.length()++ ,text: messageText, user: messageAuthor, added: new Date() });
+  messages.push({ id: messages.length + 1 ,text: messageText, user: messageAuthor, added: new Date() });
 
   res.redirect("/");
 })
