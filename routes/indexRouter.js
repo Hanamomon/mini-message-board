@@ -37,7 +37,7 @@ indexRouter.post('/new', (req, res) => {
 indexRouter.get('/:id', (req, res) => {
   const id = Number(req.params.id);
   const message = messages.find(message => message.id === id);
-  res.render('message', { message: message });
+  res.render('post', { message: message });
 })
 
 module.exports = indexRouter;
