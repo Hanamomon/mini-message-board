@@ -4,11 +4,13 @@ const indexRouter = Router();
 
 const messages = [
   {
+    id: 1,
     text: "Hi there!",
     user: "Amando",
     added: new Date()
   },
   {
+    id: 2,
     text: "Hello World!",
     user: "Charles",
     added: new Date()
@@ -27,9 +29,15 @@ indexRouter.post('/new', (req, res) => {
   const messageText = req.body.message;
   const messageAuthor = req.body.author;
 
-  messages.push({ text: messageText, user: messageAuthor, added: new Date() });
+  messages.push({ id: messages.length()++ ,text: messageText, user: messageAuthor, added: new Date() });
 
   res.redirect("/");
+})
+
+indexRouter.get('/:id', (req, res) => {
+  const id = Number(req.params.id);
+  const message = messages.find(message => message.id === id);
+  res.render('message', { message: message });
 })
 
 module.exports = indexRouter;
