@@ -30,16 +30,15 @@ exports.indexPostNewMessage = [
   validateMessage,
   async (req, res) => {
     const errors = validationResult(req);
-    console.log(errors);
+
     if (!errors.isEmpty()) {
       return res.status(400).render('form', {
         errors: errors.array(),
       });
     }
-    const { author, text } = matchedData(req);
-    console.log(author);
-    console.log(text); 
-    await db.insertMessage(text, author);
+    const { author, message } = matchedData(req);
+
+    await db.insertMessage(message, author);
 
     res.redirect("/");  
   }
