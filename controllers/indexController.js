@@ -1,11 +1,17 @@
 const db = require('../db/queries');
 
-const { body, validationResult, matchedData } = require('express-validator');
+const { body, param, validationResult, matchedData } = require('express-validator');
 
 const requiredErr = 'is required.';
 const alphanumErr = 'must consist of solely alphanumeric characters.';
 const authorErr = 'must be between 1 and 10 characters.';
 const messageErr = 'must be between 1 and 200 characters.';
+
+const validateId = [
+  param('id').trim()
+    .exists({ values: "falsy" })
+    .isInt(),
+]
 
 const validateMessage = [
   body('author').trim()
@@ -44,8 +50,17 @@ exports.indexPostNewMessage = [
   }
 ]
 
-exports.indexGetNewMessage = async (req, res) => {
-  const id = Number(req.params.id);
-  const message = await db.getMessage(id);
-  res.render('post', { message: message });  
-}
+exports.indexGetNewMessage = [
+  validateId,
+  async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.redirect('/');
+    }
+
+    const id = req.params.id;
+    const message = await db.getMessage(id);
+    res.render('post', { message: message });  
+  }
+]

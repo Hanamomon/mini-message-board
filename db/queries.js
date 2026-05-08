@@ -10,7 +10,6 @@ exports.getAllMessages = async () => {
 }
 
 exports.getMessage = async (id) => {
-  console.log(id)
   const { rows } = await pool.query("SELECT * FROM messages WHERE id = $1", [id]);
   return rows[0];
 }
